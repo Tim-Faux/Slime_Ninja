@@ -124,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitColor: {r: 1, g: 0.5851397, b: 0, a: 1}
+  breakSound: {fileID: 8300000, guid: 21d9a96c606cf0642924d859f8e9e0be, type: 3}
+  damageSound: {fileID: 8300000, guid: ba21fe4a5e711b448ba8d74d090ccc13, type: 3}
 --- !u!61 &1173618061
 BoxCollider2D:
   m_ObjectHideFlags: 0

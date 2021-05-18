@@ -6,9 +6,11 @@ public class Block : MonoBehaviour
 {
 	int timesHit = 0;
 	[SerializeField] Color hitColor = new Color(0, 0, 0, 1f);
+	[SerializeField] AudioClip breakSound;
+	[SerializeField] AudioClip damageSound;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
         
     }
@@ -34,16 +36,25 @@ public class Block : MonoBehaviour
 			DestroyBlock();
 		}
 		else {
+			PlayDamageSFX();
 			ChangeColor();
 		}
 	}
 
 	private void DestroyBlock()
 	{
-		//PlayBlockDestroySFX();
+		PlayBlockDestroySFX();
 		Destroy(gameObject);
-		//level.OnBlockBreak();
-		//TriggerSparklesVFX();
+	}
+
+	private void PlayBlockDestroySFX()
+	{
+		AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
+	}
+
+	private void PlayDamageSFX()
+	{
+		AudioSource.PlayClipAtPoint(damageSound, Camera.main.transform.position);
 	}
 
 	private void ChangeColor()
