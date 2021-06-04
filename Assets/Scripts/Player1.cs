@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Player1 : MonoBehaviour
@@ -16,6 +18,13 @@ public class Player1 : MonoBehaviour
 	[SerializeField] KeyCode leftKey = KeyCode.A;
 	[SerializeField] KeyCode upKey = KeyCode.W;
 	[SerializeField] KeyCode downKey = KeyCode.S;
+	// Timing variables
+	[SerializeField] float perfectTiming;
+	[SerializeField] float goodTiming;
+	[SerializeField] float badTiming;
+	// refereance to the textbox for the input feedback
+	[SerializeField] TextMeshProUGUI timeText;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -76,9 +85,29 @@ public class Player1 : MonoBehaviour
 	// Moves the player in a direction based on the given speeds
 	private void MovePlayer1(float HorSpeed, float VertSpeed)
 	{
+		CheckButtonPressTiming();
 		hasHitObj = false;
 		Debug.Log("Moving the player " + HorSpeed + " right and " + VertSpeed + " up");
 		rb.velocity = new Vector2(HorSpeed, VertSpeed);
+	}
+
+	private void CheckButtonPressTiming()
+	{
+		float pressedButtonTime = FindObjectOfType<Level>().GetCurrentBeatTime();
+		float timeBetweenBeatsInSeconds = FindObjectOfType<Level>().GetTimeBetweenBeatsInSeconds();
+
+		if (pressedButtonTime <= perfectTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= perfectTiming) {
+			timeText.text = "Perfect";
+		}
+		else if(pressedButtonTime <= goodTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= goodTiming) {
+			timeText.text = "Good";
+		}
+		else if (pressedButtonTime <= badTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= badTiming) {
+			timeText.text = "Bad";
+		}
+		else {
+			timeText.text = "Miss";
+		}
 	}
 
 	// Tells the program the the player has collided with a wall and should be allowed to move

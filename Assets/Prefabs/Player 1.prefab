@@ -148,3 +148,7 @@ MonoBehaviour:
   leftKey: 97
   upKey: 119
   downKey: 115
+  perfectTiming: 0.5
+  goodTiming: 1
+  badTiming: 1.5
+  timeText: {fileID: 0}
