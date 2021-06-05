@@ -85,13 +85,15 @@ public class Player1 : MonoBehaviour
 	// Moves the player in a direction based on the given speeds
 	private void MovePlayer1(float HorSpeed, float VertSpeed)
 	{
-		CheckButtonPressTiming();
-		hasHitObj = false;
-		Debug.Log("Moving the player " + HorSpeed + " right and " + VertSpeed + " up");
-		rb.velocity = new Vector2(HorSpeed, VertSpeed);
+		bool hitBeat = CheckButtonPressTiming();
+		if (hitBeat) {
+			hasHitObj = false;
+			Debug.Log("Moving the player " + HorSpeed + " right and " + VertSpeed + " up");
+			rb.velocity = new Vector2(HorSpeed, VertSpeed);
+		}
 	}
 
-	private void CheckButtonPressTiming()
+	private bool CheckButtonPressTiming()
 	{
 		float pressedButtonTime = FindObjectOfType<Level>().GetCurrentBeatTime();
 		float timeBetweenBeatsInSeconds = FindObjectOfType<Level>().GetTimeBetweenBeatsInSeconds();
@@ -107,7 +109,9 @@ public class Player1 : MonoBehaviour
 		}
 		else {
 			timeText.text = "Miss";
+			return false;
 		}
+		return true;
 	}
 
 	// Tells the program the the player has collided with a wall and should be allowed to move
