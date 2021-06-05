@@ -9,12 +9,14 @@ public class Level : MonoBehaviour
 	float timeBetweenBeatsInSeconds;
 	[SerializeField] TextMeshProUGUI timeText; // Used for debugging remove later
 	float currentBeatTime;
+	[SerializeField] GameObject leftBeatVisual;
 	
     // Start is called before the first frame update
     void Start()
     {
 		timeBetweenBeatsInSeconds = 60 / bpm;
 		currentBeatTime = timeBetweenBeatsInSeconds;
+		CreateBeatVisual();
     }
 
     // Update is called once per frame
@@ -30,6 +32,7 @@ public class Level : MonoBehaviour
 
 		if (currentBeatTime <= 0) {
 			currentBeatTime = timeBetweenBeatsInSeconds;
+			CreateBeatVisual();
 		}
 	}
 
@@ -41,5 +44,10 @@ public class Level : MonoBehaviour
 	public float GetTimeBetweenBeatsInSeconds()
 	{
 		return timeBetweenBeatsInSeconds;
+	}
+
+	private void CreateBeatVisual()
+	{
+		GameObject sparkles = Instantiate(leftBeatVisual);
 	}
 }

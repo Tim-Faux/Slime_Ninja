@@ -120,4 +120,6 @@ public class Player1 : MonoBehaviour
 		hasHitObj = true;
 		Debug.Log("The player has stoped");
 	}
+
+	
 }
