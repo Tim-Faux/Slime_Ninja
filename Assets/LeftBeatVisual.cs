@@ -8,23 +8,24 @@ public class LeftBeatVisual : MonoBehaviour
 	private const float TimeBetweenBeatVisualMovement = 0.001f;
 	float beatSpeed;
 
+	// Sets the speed the beats should move at on the screen
+	public void SetBeatSpeed(float beatTiming)
+	{
+		float timeBetweenBeatsInSeconds = beatTiming;
+		beatSpeed = transform.position.x / timeBetweenBeatsInSeconds * -1;
+	}
+
     // Start is called before the first frame update
     void Start()
     {
-		float timeBetweenBeatsInSeconds = FindObjectOfType<Level>().GetTimeBetweenBeatsInSeconds();
-		beatSpeed = transform.position.x / timeBetweenBeatsInSeconds * -1;
 		StartCoroutine(MoveRight());
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-		
-    }
-
+	// Moves the beat indicator to the right
 	private IEnumerator MoveRight()
 	{
-		transform.Translate(new Vector2(beatSpeed * Time.deltaTime, 0));
+		Vector2 beatMovement = new Vector2(beatSpeed * Time.deltaTime, 0);
+		transform.Translate(beatMovement);
 		if(transform.position.x >= 0) {
 			DestroyBeat();
 		}
@@ -32,6 +33,7 @@ public class LeftBeatVisual : MonoBehaviour
 		StartCoroutine(MoveRight());
 	}
 
+	// Destroys the current beat instance
 	private void DestroyBeat()
 	{
 		Destroy(gameObject);

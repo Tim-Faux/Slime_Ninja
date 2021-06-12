@@ -13,6 +13,8 @@ public class Player1 : MonoBehaviour
 	// Variables to keep track of player's state
 	bool hasHitObj = true;
 	Rigidbody2D rb;
+	// Variable to keep track of the current level
+	Level level;
 	// Keyboard variables
 	[SerializeField] KeyCode rightKey = KeyCode.D;
 	[SerializeField] KeyCode leftKey = KeyCode.A;
@@ -30,6 +32,7 @@ public class Player1 : MonoBehaviour
 	void Start()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		level = FindObjectOfType<Level>();
 	}
 
 	// Update is called once per frame
@@ -93,12 +96,11 @@ public class Player1 : MonoBehaviour
 		}
 	}
 
-
-	//TODO This doesnt make much sense right now with how the indicator is working
+	// Checks how close the timing for the next or previous beat is to 0
 	private bool CheckButtonPressTiming()
 	{
-		float pressedButtonTime = FindObjectOfType<Level>().GetCurrentBeatTime();
-		float timeBetweenBeatsInSeconds = FindObjectOfType<Level>().GetTimeBetweenBeatsInSeconds();
+		float pressedButtonTime = level.GetCurrentBeatTime();
+		float timeBetweenBeatsInSeconds = level.GetTimeBetweenBeatsInSeconds();
 
 		if (pressedButtonTime <= perfectTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= perfectTiming) {
 			timeText.text = "Perfect";

@@ -1133,8 +1133,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 20
-  timeText: {fileID: 1656994913}
   leftBeatVisual: {fileID: 2142668902461027873, guid: 9d30a138df1d2a441be1d755c2a6419e, type: 3}
+  timeText: {fileID: 1656994913}
 --- !u!1 &1656994912
 GameObject:
   m_ObjectHideFlags: 0
