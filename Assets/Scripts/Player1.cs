@@ -93,6 +93,8 @@ public class Player1 : MonoBehaviour
 		}
 	}
 
+
+	//TODO This doesnt make much sense right now with how the indicator is working
 	private bool CheckButtonPressTiming()
 	{
 		float pressedButtonTime = FindObjectOfType<Level>().GetCurrentBeatTime();

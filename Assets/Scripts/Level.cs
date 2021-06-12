@@ -48,6 +48,6 @@ public class Level : MonoBehaviour
 
 	private void CreateBeatVisual()
 	{
-		GameObject sparkles = Instantiate(leftBeatVisual);
+		GameObject leftBeat = Instantiate(leftBeatVisual);
 	}
 }
