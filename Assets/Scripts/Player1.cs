@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Player1 : MonoBehaviour
@@ -11,16 +13,26 @@ public class Player1 : MonoBehaviour
 	// Variables to keep track of player's state
 	bool hasHitObj = true;
 	Rigidbody2D rb;
+	// Variable to keep track of the current level
+	Level level;
 	// Keyboard variables
 	[SerializeField] KeyCode rightKey = KeyCode.D;
 	[SerializeField] KeyCode leftKey = KeyCode.A;
 	[SerializeField] KeyCode upKey = KeyCode.W;
 	[SerializeField] KeyCode downKey = KeyCode.S;
+	// Timing variables
+	[SerializeField] float perfectTiming;
+	[SerializeField] float goodTiming;
+	[SerializeField] float badTiming;
+	// refereance to the textbox for the input feedback
+	[SerializeField] TextMeshProUGUI timeText;
+
 
 	// Start is called before the first frame update
 	void Start()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		level = FindObjectOfType<Level>();
 	}
 
 	// Update is called once per frame
@@ -76,9 +88,34 @@ public class Player1 : MonoBehaviour
 	// Moves the player in a direction based on the given speeds
 	private void MovePlayer1(float HorSpeed, float VertSpeed)
 	{
-		hasHitObj = false;
-		Debug.Log("Moving the player " + HorSpeed + " right and " + VertSpeed + " up");
-		rb.velocity = new Vector2(HorSpeed, VertSpeed);
+		bool hitBeat = CheckButtonPressTiming();
+		if (hitBeat) {
+			hasHitObj = false;
+			Debug.Log("Moving the player " + HorSpeed + " right and " + VertSpeed + " up");
+			rb.velocity = new Vector2(HorSpeed, VertSpeed);
+		}
+	}
+
+	// Checks how close the timing for the next or previous beat is to 0
+	private bool CheckButtonPressTiming()
+	{
+		float pressedButtonTime = level.GetCurrentBeatTime();
+		float timeBetweenBeatsInSeconds = level.GetTimeBetweenBeatsInSeconds();
+
+		if (pressedButtonTime <= perfectTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= perfectTiming) {
+			timeText.text = "Perfect";
+		}
+		else if(pressedButtonTime <= goodTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= goodTiming) {
+			timeText.text = "Good";
+		}
+		else if (pressedButtonTime <= badTiming || timeBetweenBeatsInSeconds - pressedButtonTime <= badTiming) {
+			timeText.text = "Bad";
+		}
+		else {
+			timeText.text = "Miss";
+			return false;
+		}
+		return true;
 	}
 
 	// Tells the program the the player has collided with a wall and should be allowed to move
@@ -87,4 +124,6 @@ public class Player1 : MonoBehaviour
 		hasHitObj = true;
 		Debug.Log("The player has stoped");
 	}
+
+	
 }
