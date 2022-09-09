@@ -1134,6 +1134,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bpm: 20
   leftBeatVisual: {fileID: 2142668902461027873, guid: 9d30a138df1d2a441be1d755c2a6419e, type: 3}
+  Pattern: ABC
+  beatPattern:
+  - Letter: A
+    NumBeats: 0
+  - Letter: B
+    NumBeats: 0
+  - Letter: C
+    NumBeats: 0
   timeText: {fileID: 1656994913}
 --- !u!1 &1656994912
 GameObject:

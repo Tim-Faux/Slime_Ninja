@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
-public class Level : MonoBehaviour
+public class Level : MonoBehaviour, ISerializationCallbackReceiver
 {
 	// Speed of the beats, set in unity
 	[SerializeField] float bpm = 1f;
@@ -13,6 +14,8 @@ public class Level : MonoBehaviour
 	float currentBeatTime;
 	// The total time between each beat of the song, based on the bpm
 	float timeBetweenBeatsInSeconds;
+	[SerializeField] string Pattern;
+	[SerializeField] BeatPattern[] beatPattern;
 
 	[SerializeField] TextMeshProUGUI timeText; // Used for debugging remove later
 
@@ -63,5 +66,30 @@ public class Level : MonoBehaviour
 	{
 		GameObject leftBeat = Instantiate(leftBeatVisual);
 		leftBeat.SendMessage("SetBeatSpeed", timeBetweenBeatsInSeconds);
+	}
+
+	public void OnBeforeSerialize()
+	{
+		List<char> CharList = Pattern.ToUpper().ToList().Distinct().ToList();
+		BeatPattern[] TempBeatPattern = new BeatPattern[CharList.Count];
+		for (int i = 0; i < CharList.Count; i++) {
+			var letter = CharList[i].ToString();
+			if (!TempBeatPattern.Select(tbp => tbp.Letter).Contains(letter)) {
+				if (beatPattern.Select(bp => bp.Letter).ToList().Contains(letter)) {
+					TempBeatPattern[i].Letter = letter;
+					TempBeatPattern[i].NumBeats = beatPattern.Where(bp => bp.Letter == letter).Select(bp => bp.NumBeats).First();
+				}
+				else {
+					TempBeatPattern[i].Letter = letter;
+					TempBeatPattern[i].NumBeats = 0;
+				}
+			}
+		}
+		beatPattern = TempBeatPattern;
+	}
+
+	public void OnAfterDeserialize()
+	{
+		//Need this for the interface, has no function
 	}
 }

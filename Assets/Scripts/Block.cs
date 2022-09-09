@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Block : MonoBehaviour
@@ -9,38 +7,31 @@ public class Block : MonoBehaviour
 	[SerializeField] AudioClip breakSound;
 	[SerializeField] AudioClip damageSound;
 
-	// Start is called before the first frame update
-	void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-	private void OnTriggerEnter2D(Collider2D collision)
+	/*
+	 *	Handles when the player hits the block
+	 */
+	public bool HandleHit()
 	{
+		// checks if the block should break and destroys it
 		if (tag == "Breakable") {
-			HandleHit();
+			timesHit++;
+			int maxHits = 2;
+			if (timesHit >= maxHits) {
+				DestroyBlock();
+				return true;
+			}
+			else {
+				PlayDamageSFX();
+				ChangeColor();
+				return false;
+			}
 		}
+		return false;
 	}
 
-	private void HandleHit()
-	{
-		timesHit++;
-		int maxHits = 2;
-		if (timesHit >= maxHits) {
-			DestroyBlock();
-		}
-		else {
-			PlayDamageSFX();
-			ChangeColor();
-		}
-	}
-
+	/*
+	 *	Removes the breakable block and plays sound effect
+	 */
 	private void DestroyBlock()
 	{
 		PlayBlockDestroySFX();
@@ -57,6 +48,9 @@ public class Block : MonoBehaviour
 		AudioSource.PlayClipAtPoint(damageSound, Camera.main.transform.position);
 	}
 
+	/*
+	 *	changes block's color once hit
+	 */
 	private void ChangeColor()
 	{
 		Debug.Log("Changing block color");
